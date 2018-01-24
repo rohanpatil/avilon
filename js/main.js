@@ -4,10 +4,10 @@ jQuery(document).ready(function($) {
   $(window).scroll(function() {
     if ($(this).scrollTop() > 100) {
       $('.back-to-top').fadeIn('slow');
-      $('#header').addClass('header-fixed');
+      $('#header').css('position', 'fixed');
     } else {
       $('.back-to-top').fadeOut('slow');
-      $('#header').removeClass('header-fixed');
+      $('#header').css('position', 'inherit');
     }
   });
   $('.back-to-top').click(function() {
@@ -75,13 +75,13 @@ jQuery(document).ready(function($) {
       if (target.length) {
         var top_space = 0;
 
-        if ($('#header').length) {
+        /*if ($('#header').length) {
           top_space = $('#header').outerHeight();
 
           if( ! $('#header').hasClass('header-fixed') ) {
             top_space = top_space - 20;
           }
-        }
+        }*/
 
         $('html, body').animate({
           scrollTop: target.offset().top - top_space
