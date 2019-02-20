@@ -31,6 +31,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
 	$arrURLs = array_filter($arrURLs);
 }
+$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
