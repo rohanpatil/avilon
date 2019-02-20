@@ -47,7 +47,7 @@ foreach ($arrURLs as $strURL) {
 	foreach ($arrstrContent as $value) {
 		if (preg_match('(hindi:|english:|marathi:)', strtolower($value)) === 1) {
 			$url = explode(PHP_EOL, $value)[1];
-			if (!$fp = @fopen($url, "r")) {
+			if (!$fp = fopen($url, "r")) {
 				echo explode(PHP_EOL, $value)[1];
 			} else {
 				$strFinal .= '#EXTINF' . $value . PHP_EOL;
