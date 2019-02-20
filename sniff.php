@@ -48,8 +48,9 @@ foreach ($arrURLs as $strURL) {
 		if (preg_match('(hindi:|english:|marathi:|in:|adt:|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$url = explode(PHP_EOL, $value)[1];
 			if (!$fp = @fopen($url, "r")) {
+				echo explode(PHP_EOL, $value)[1];
 			} else {
-				echo $strFinal .= '#EXTINF' . $value . PHP_EOL;
+				$strFinal .= '#EXTINF' . $value . PHP_EOL;
 				fclose($fp);
 			}
 		}
