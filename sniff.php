@@ -49,7 +49,7 @@ foreach ($arrURLs as $strURL) {
 			$url = explode(PHP_EOL, $value)[1];
 			if (!$fp = @fopen($url, "r")) {
 			} else {
-				$strFinal .= '#EXTINF' . $value . PHP_EOL;
+				echo $strFinal .= '#EXTINF' . $value . PHP_EOL;
 				fclose($fp);
 			}
 		}
