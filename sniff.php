@@ -30,7 +30,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	# Show the <a href>
 	$arrURLs = array_filter(explode(PHP_EOL, $link->nodeValue), function($value) { return $value !== ''; });
 }
-print_r($arrURLs);exit;
+
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
 
