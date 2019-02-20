@@ -8,7 +8,7 @@ $strCurrentTime = $objDateTime->format('d-m-Y');
 
 # Use the Curl extension to query Google and get back a page of results
 $url = "https://www.en.m3uiptv.com/iptv-links-free-m3u-playlist-$strCurrentTime/";
-echo $url;
+
 $ch = curl_init();
 $timeout = 5;
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -30,7 +30,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	# Show the <a href>
 	$arrURLs = array_filter(explode(PHP_EOL, $link->nodeValue));
 }
-
+print_r($arrURLs);exit;
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
 
