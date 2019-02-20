@@ -34,7 +34,7 @@ print_r($arrURLs);exit;
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
 
-	if (get_http_response_code($strURL) != "200") {
+	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
 		continue;
 	} else {
 		$strContent = file_get_contents($strURL);
