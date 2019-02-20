@@ -28,12 +28,13 @@ $dom = new DOMDocument();
 # Iterate over all the <a> tags
 foreach ($dom->getElementsByTagName('pre') as $link) {
 	# Show the <a href>
-	$arrURLs = array_filter(explode(PHP_EOL, $link->nodeValue), function($value) { return $value !== ''; });
+	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
+	$arrURLs = array_filter($arrURLs);
 }
-
+print_r($arrURLs);exit;
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
-
+	echo $strURL;
 	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
 		continue;
 	} else {
