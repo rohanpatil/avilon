@@ -63,7 +63,7 @@ if (false == empty($strFinal)) {
 
 	curl_setopt($ch, CURLOPT_URL, 'https://snippets.glot.io/snippets/f9nt3c5w6h');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"language\": \"plaintext\", \"title\": \"4k channels\", \"public\": false, \"files\": [{\"name\": \"main.txt\", \"content\": \"print(42)\"}]}");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"language\": \"plaintext\", \"title\": \"4k channels\", \"public\": false, \"files\": [{\"name\": \"main.txt\", \"content\": \"$strFinal\"}]}");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
 
 	$headers = array();
