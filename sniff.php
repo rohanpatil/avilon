@@ -31,7 +31,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
 	$arrURLs = array_filter($arrURLs);
 }
-print_r($arrURLs);exit;
+
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
 	echo $strURL;
