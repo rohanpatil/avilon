@@ -1,5 +1,5 @@
 <?php
-ini_set('default_socket_timeout', 1);
+
 set_time_limit(0);
 
 $objDateTime = new DateTime();
@@ -45,9 +45,9 @@ foreach ($arrURLs as $strURL) {
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
-		if (preg_match('(hindi:|english:|marathi:)', strtolower($value)) === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|adt:|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$url = trim(explode(PHP_EOL, $value)[1]);
-			if (!$fp = fopen($url, "r")) {
+			if (!$fp = @fopen($url, "r")) {
 				echo explode(PHP_EOL, $value)[1];
 			} else {
 				$strFinal .= '#EXTINF' . $value . PHP_EOL;
@@ -71,7 +71,7 @@ if (false == empty($strFinal)) {
 	curl_setopt($ch, CURLOPT_URL, 'https://snippets.glot.io/snippets/f9nt3c5w6h');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDSIZE, -1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"language\": \"plaintext\", \"title\": \"4k channels\", \"public\": false, \"files\": [{\"name\": \"main.txt\", \"content\": \"" . urlencode($strFinal) . "\"}]}");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"language\": \"plaintext\", \"title\": \"4k channels\", \"public\": false, \"files\": [{\"name\": \"main.txt\", \"content\": \"" . $strFinal . "\"}]}");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
 
 	$headers = array();
