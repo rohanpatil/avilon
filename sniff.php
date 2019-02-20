@@ -55,11 +55,11 @@ foreach ($arrURLs as $strURL) {
 	}
 }
 
-$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
+/*$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
 fwrite($myfile, $strFinal);
-fclose($myfile);
+fclose($myfile);*/
 
-/*if (false == empty($strFinal)) {
+if (false == empty($strFinal)) {
 echo "Writing in the paste URL";
 $strFinal = '#EXTM3U' . PHP_EOL . $strFinal;
 
@@ -83,7 +83,7 @@ echo 'Error:' . curl_error($ch);
 }
 curl_close($ch);
 exit;
-}*/
+}
 
 function get_http_response_code($url) {
 	$headers = get_headers($url);
