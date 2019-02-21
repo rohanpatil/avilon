@@ -34,7 +34,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
 	$arrURLs = array_filter($arrURLs);
 }
-
+//$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 $strFinal = '';
 foreach ($arrURLs as $index => $strURL) {
 	echo $strURL . PHP_EOL;
@@ -53,7 +53,7 @@ foreach ($arrURLs as $index => $strURL) {
 				$strgroupTitle = 'HD ' . $index;
 			}
 
-			$strFinal .= '#EXTINF' . $value . 'group-title=\"' . $strgroupTitle . '\"' . PHP_EOL;
+			$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), $value) . PHP_EOL;
 		}
 	}
 }
@@ -81,7 +81,7 @@ if (false == empty($strFinal)) {
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 	$result = curl_exec($ch);
-
+	print_r($result);exit;
 	if (curl_errno($ch)) {
 		echo 'Error:' . curl_error($ch);
 	}
