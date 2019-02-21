@@ -53,7 +53,7 @@ foreach ($arrURLs as $index => $strURL) {
 				$strgroupTitle = 'HD ' . $index;
 			}
 
-			$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), $value) . PHP_EOL;
+			$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
 		}
 	}
 }
