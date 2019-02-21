@@ -53,7 +53,7 @@ foreach ($arrURLs as $index => $strURL) {
 				$strgroupTitle = 'HD ' . $index;
 			}
 
-			$strFinal .= '#EXTINF' . $value . 'group-title="' . $strgroupTitle . '"' . PHP_EOL;
+			$strFinal .= '#EXTINF' . $value . 'group-title=\"' . $strgroupTitle . '\"' . PHP_EOL;
 		}
 	}
 }
