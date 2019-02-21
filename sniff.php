@@ -34,7 +34,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 //$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 
 $strFinal = '';
-foreach ($arrURLs as $strURL) {
+foreach ($arrURLs as $index => $strURL) {
 	echo $strURL . PHP_EOL;
 	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
 		continue;
@@ -46,8 +46,12 @@ foreach ($arrURLs as $strURL) {
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
 		if (preg_match('(hindi:|english:|marathi:|in:|adt:|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
+			$strgroupTitle = $index;
+			if (strpos(strtolower($value), 'HD') !== false) {
+			    echo $index . ' - HD';
+			}
 			
-			$strFinal .= '#EXTINF' . $value . PHP_EOL;
+			$strFinal .= '#EXTINF' . $value . 'group-title="' . $strgroupTitle . '"' . PHP_EOL;			
 		}
 	}
 }
