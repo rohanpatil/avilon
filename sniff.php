@@ -4,6 +4,9 @@ set_time_limit(0);
 
 $objDateTime = new DateTime();
 $objDateTime->setTimeZone(new DateTimeZone('IST'));
+$strDateInterval = new DateInterval("P1D");
+$strDateInterval->invert = 1;
+$objDateTime->add($strDateInterval);
 $strCurrentTime = $objDateTime->format('d-m-Y');
 
 # Use the Curl extension to query Google and get back a page of results
