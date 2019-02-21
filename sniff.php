@@ -35,7 +35,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	$arrURLs = array_filter($arrURLs);
 }
 
-$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
+//$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 $strFinal = '';
 $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
