@@ -36,6 +36,8 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 }
 $arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 $strFinal = '';
+$context = stream_context_create(array('http' => array('timeout' => 5)));
+
 foreach ($arrURLs as $index => $strURL) {
 	echo $strURL . PHP_EOL;
 	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
@@ -52,10 +54,10 @@ foreach ($arrURLs as $index => $strURL) {
 			if (strpos(strtolower($value), 'hd') !== false) {
 				$strgroupTitle = 'HD ' . $index;
 			}
-			
-			$url = trim(explode(PHP_EOL, $value)[1]);				
-			if (!$fp = @fopen($url, "r")) {				
-				echo "FAiled ==>" explode(PHP_EOL, $value)[1];	
+
+			$url = trim(explode(PHP_EOL, $value)[1]);
+			if (!$fp = @fopen($url, "r", false, $context)) {
+				echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
 			} else {
 				$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
 				fclose($fp);
