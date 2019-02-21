@@ -54,7 +54,7 @@ foreach ($arrURLs as $index => $strURL) {
 			    echo $index . ' - HD';
 			}
 			
-			$strFinal .= '#EXTINF' . $value . 'group-title="' . $strgroupTitle . '"' . PHP_EOL;			
+			$strFinal .= '#EXTINF' . $value . PHP_EOL;			
 		}
 	}
 }
