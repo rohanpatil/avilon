@@ -31,7 +31,7 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
 	$arrURLs = array_filter($arrURLs);
 }
-$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
+//$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 
 $strFinal = '';
 foreach ($arrURLs as $strURL) {
@@ -65,7 +65,7 @@ if (false == empty($strFinal)) {
 
 	curl_setopt($ch, CURLOPT_URL, 'https://snippets.glot.io/snippets/f9nt3c5w6h');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDSIZE, -1);
+	//curl_setopt($ch, CURLOPT_POSTFIELDSIZE, -1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"language\": \"plaintext\", \"title\": \"4k channels\", \"public\": false, \"files\": [{\"name\": \"main.txt\", \"content\": \"" . $strFinal . "\"}]}");
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
 
