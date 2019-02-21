@@ -34,8 +34,10 @@ foreach ($dom->getElementsByTagName('pre') as $link) {
 	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
 	$arrURLs = array_filter($arrURLs);
 }
+
 $arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 $strFinal = '';
+$strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 
 foreach ($arrURLs as $index => $strURL) {
@@ -46,6 +48,10 @@ foreach ($arrURLs as $index => $strURL) {
 		$strContent = file_get_contents($strURL);
 	}
 
+	if ($strChannelCount >= 200) {
+		exit;
+	}
+
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
@@ -53,14 +59,15 @@ foreach ($arrURLs as $index => $strURL) {
 			$strgroupTitle = $index;
 			if (strpos(strtolower($value), 'hd') !== false) {
 				$strgroupTitle = 'HD ' . $index;
-			}
 
-			$url = trim(explode(PHP_EOL, $value)[1]);
-			if (!$fp = @fopen($url, "r", false, $context)) {
-				echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
-			} else {
-				$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
-				fclose($fp);
+				$url = trim(explode(PHP_EOL, $value)[1]);
+				if (!$fp = @fopen($url, "r", false, $context)) {
+					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
+				} else {
+					$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
+					$strChannelCount++;
+					fclose($fp);
+				}
 			}
 		}
 	}
