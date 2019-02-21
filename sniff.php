@@ -49,7 +49,7 @@ foreach ($arrURLs as $index => $strURL) {
 	}
 
 	if ($strChannelCount >= 200) {
-		exit;
+		continue;
 	}
 
 	$arrstrContent = explode('#EXTINF', $strContent);
