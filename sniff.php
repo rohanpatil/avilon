@@ -48,7 +48,7 @@ foreach ($arrURLs as $index => $strURL) {
 		$strContent = file_get_contents($strURL);
 	}
 
-	if ($strChannelCount >= 200) {
+	if ($strChannelCount >= 300) {
 		continue;
 	}
 
