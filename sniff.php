@@ -55,7 +55,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
-		if (preg_match('(hindi:|english:|marathi:|in:|adt:|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 			if (strpos(strtolower($value), 'hd') !== false) {
 				$strgroupTitle = 'HD ' . $index;
