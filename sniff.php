@@ -17,7 +17,7 @@ do {
 
 $arrURLs = getURLData($url, 'pre');
 $arrURLs = array_merge($arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs);
-print_r($arrURLs);exit;
+
 //$arrURLs = array('http://176.115.136.45:8080/udp/233.166.172.138:1234?codec=mpeg4');
 $strFinal = '';
 $strChannelCount = 0;
