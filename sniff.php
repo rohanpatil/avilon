@@ -2,6 +2,8 @@
 set_time_limit(0);
 # Use the Curl extension to query Google and get back a page of results
 
+$arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
+
 $i = 0;
 do {
 	$strCurrentTime = getDateTime($i);
@@ -10,30 +12,17 @@ do {
 	$i++;
 } while (get_http_response_code($url) != "200" && $i < 10);
 
-$ch = curl_init();
-$timeout = 5;
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-$html = curl_exec($ch);
-curl_close($ch);
-# Create a DOM parser object
-$dom = new DOMDocument();
-# Parse the HTML from Google.
-# The @ before the method call suppresses any warnings that
-# loadHTML might throw because of invalid HTML in the page.
-@$dom->loadHTML($html);
-# Iterate over all the <a> tags
-foreach ($dom->getElementsByTagName('pre') as $link) {
-	# Show the <a href>
-	$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
-	$arrURLs = array_filter($arrURLs);
-}
+$arrURLs = getURLData($url, 'pre');
+$arrURLs = array_merge($arrFirstURLs, $arrURLs);
+
 //$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 $strFinal = '';
 $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 foreach ($arrURLs as $index => $strURL) {
+	if (strpos($strURL, 'http') === false) {
+		continue;
+	}
 	echo $strURL . PHP_EOL;
 	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
 		continue;
@@ -99,5 +88,34 @@ function getDateTime($intInvertDays) {
 	$strDateInterval->invert = 1;
 	$objDateTime->add($strDateInterval);
 	return $objDateTime->format('d-m-Y');
+}
+
+function getURLData($url, $strTag) {
+	$arrURLs = array();
+	$arrFinalArray = array();
+
+	$ch = curl_init();
+	$timeout = 5;
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	$html = curl_exec($ch);
+	curl_close($ch);
+
+	# Create a DOM parser object
+	$dom = new DOMDocument();
+# Parse the HTML from Google.
+	# The @ before the method call suppresses any warnings that
+	# loadHTML might throw because of invalid HTML in the page.
+	@$dom->loadHTML($html);
+
+# Iterate over all the <a> tags
+	foreach ($dom->getElementsByTagName($strTag) as $link) {
+		# Show the <a href>
+		$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
+		$arrURLs = array_filter($arrURLs);
+		$arrFinalArray = array_merge($arrFinalArray, $arrURLs);
+	}
+	return $arrFinalArray;
 }
 ?>
