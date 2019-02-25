@@ -22,17 +22,21 @@ $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 foreach ($arrURLs as $index => $strURL) {
 	if (strpos($strURL, 'http') === false) {
+		unset($arrURLs[$index]);
 		continue;
 	}
 	echo $strURL . PHP_EOL;
 	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
+		unset($arrURLs[$index]);
 		continue;
 	} else {
 		$strContent = file_get_contents($strURL);
 	}
 	if ($strChannelCount >= 300) {
+		unset($arrURLs[$index]);
 		continue;
 	}
+
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
