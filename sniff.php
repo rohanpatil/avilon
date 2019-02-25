@@ -2,8 +2,9 @@
 set_time_limit(0);
 # Use the Curl extension to query Google and get back a page of results
 
-$arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
+$arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
 
+$arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
 $i = 0;
 do {
 	$strCurrentTime = getDateTime($i);
@@ -13,7 +14,7 @@ do {
 } while (get_http_response_code($url) != "200" && $i < 10);
 
 $arrURLs = getURLData($url, 'pre');
-$arrURLs = array_merge($arrFirstURLs, $arrURLs);
+$arrURLs = array_merge($arrFirstURLs, $arrSecondURLs, $arrURLs);
 
 //$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
 $strFinal = '';
