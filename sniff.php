@@ -18,7 +18,7 @@ do {
 $arrURLs = getURLData($url, 'pre');
 $arrURLs = array_merge($arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs);
 
-//$arrURLs = array('http://176.115.136.45:8080/udp/233.166.172.138:1234?codec=mpeg4');
+//$arrURLs = array('https://freedailyiptv.com/links/25-02-2019/World20_freedailyiptv.com.m3u');
 $strFinal = '';
 $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
@@ -42,8 +42,9 @@ foreach ($arrURLs as $index => $strURL) {
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
-		if (preg_match('(hindi:|english:|marathi:|in:|in-|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|in-|(in)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
+
 			if (strpos(strtolower($value), 'hd') !== false) {
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
