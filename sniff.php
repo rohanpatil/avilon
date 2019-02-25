@@ -16,12 +16,12 @@ do {
 $arrURLs = getURLData($url, 'pre');
 $arrURLs = array_merge($arrFirstURLs, $arrSecondURLs, $arrURLs);
 
-//$arrURLs = array('http://www.sansat.net:25461/get.php?username=bryan&password=bryan123&type=m3u');
+//$arrURLs = array('http://176.115.136.45:8080/udp/233.166.172.138:1234?codec=mpeg4');
 $strFinal = '';
 $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 foreach ($arrURLs as $index => $strURL) {
-	if (strpos($strURL, 'http') === false) {
+	if (strpos($strURL, 'http') === false || strpos($strURL, 'm3u') === false) {
 		unset($arrURLs[$index]);
 		continue;
 	}
