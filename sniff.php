@@ -2,9 +2,11 @@
 set_time_limit(0);
 # Use the Curl extension to query Google and get back a page of results
 
-$arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
+$arrStartArray = getURLData("https://freedailyiptv.com/world-m3u-free-daily-iptv-list-" . date("m-Y") . "/", 'a');
 
+$arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
 $arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
+
 $i = 0;
 do {
 	$strCurrentTime = getDateTime($i);
@@ -14,8 +16,8 @@ do {
 } while (get_http_response_code($url) != "200" && $i < 10);
 
 $arrURLs = getURLData($url, 'pre');
-$arrURLs = array_merge($arrFirstURLs, $arrSecondURLs, $arrURLs);
-
+$arrURLs = array_merge($arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs);
+print_r($arrURLs);exit;
 //$arrURLs = array('http://176.115.136.45:8080/udp/233.166.172.138:1234?codec=mpeg4');
 $strFinal = '';
 $strChannelCount = 0;
@@ -32,7 +34,7 @@ foreach ($arrURLs as $index => $strURL) {
 	} else {
 		$strContent = file_get_contents($strURL);
 	}
-	if ($strChannelCount >= 300) {
+	if ($strChannelCount >= 500) {
 		unset($arrURLs[$index]);
 		continue;
 	}
@@ -40,7 +42,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
-		if (preg_match('(hindi:|english:|marathi:|in:|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|in-|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 			if (strpos(strtolower($value), 'hd') !== false) {
 				$strgroupTitle = 'HD ' . $index;
@@ -121,6 +123,12 @@ function getURLData($url, $strTag) {
 		$arrURLs = array_filter($arrURLs);
 		$arrFinalArray = array_merge($arrFinalArray, $arrURLs);
 	}
-	return $arrFinalArray;
+
+	return array_filter($arrFinalArray, 'removeInvalidLinks');
+}
+
+function removeInvalidLinks($var) {
+	// returns whether the value is 'other'
+	return (strpos($var, 'http') !== false);
 }
 ?>
