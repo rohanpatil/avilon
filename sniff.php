@@ -69,7 +69,7 @@ fwrite($myfile, $strFinal);
 fclose($myfile);*/
 if (false == empty($strFinal)) {
 	echo "Writing in the paste URL";
-	writeFile($strFinal, 'f9p029xslv')
+	writeFile($strFinal, 'f9p029xslv');
 }
 
 if (false == empty($stradtFinal)) {
