@@ -35,10 +35,11 @@ foreach ($arrURLs as $index => $strURL) {
 	} else {
 		$strContent = file_get_contents($strURL);
 	}
-	if ($strChannelCount >= 500) {
+	
+	/*if ($strChannelCount >= 500) {
 		unset($arrURLs[$index]);
 		continue;
-	}
+	}*/
 
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
