@@ -16,7 +16,7 @@ do {
 } while (get_http_response_code($url) != "200" && $i < 10);
 
 $arrURLs = getURLData($url, 'pre');
-$arrURLs = array_merge($arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs);
+$arrURLs = array_unique(array_merge($arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
 //$arrURLs = array('https://freedailyiptv.com/links/25-02-2019/World20_freedailyiptv.com.m3u');
 $strFinal = '';
