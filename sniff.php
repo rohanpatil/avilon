@@ -3,7 +3,7 @@ set_time_limit(0);
 # Use the Curl extension to query Google and get back a page of results
 
 $arrStartArray = getURLData("https://freedailyiptv.com/world-m3u-free-daily-iptv-list-" . date("m-Y") . "/", 'a');
-
+$arrThirdArray = getURLData("https://freedailyiptv.com/stream-database/", 'span');
 $arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
 $arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
 
@@ -16,7 +16,7 @@ do {
 } while (get_http_response_code($url) != "200" && $i < 10);
 
 $arrURLs = getURLData($url, 'pre');
-$arrURLs = array_unique(array_merge($arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
+$arrURLs = array_unique(array_merge($arrThirdArray, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
 //$arrURLs = array('https://freedailyiptv.com/links/25-02-2019/World20_freedailyiptv.com.m3u');
 $strFinal = '';
