@@ -25,7 +25,10 @@ do {
 } while (get_http_response_code($url) != "200" && $i < 10);
 
 $arrURLs = getURLData($url, 'pre');
-$arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
+
+$arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4&export=download');
+
+$arrURLs = array_unique(array_merge($arrStaticURLs, $arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
 //$arrURLs = array('https://freedailyiptv.com/links/25-02-2019/World20_freedailyiptv.com.m3u');
 $strFinal = '';
