@@ -11,12 +11,21 @@ $i = 0;
 do {
 	$strCurrentTime = getDateTime($i);
 	$url = "https://www.en.m3uiptv.com/iptv-links-free-m3u-playlist-$strCurrentTime/";
-	echo $strCurrentTime . PHP_EOL;
+	echo $url . PHP_EOL;
+	$i++;
+} while (get_http_response_code($url) != "200" && $i < 10);
+$arrForthURLs = getURLData($url, 'pre');
+
+$i = 0;
+do {
+	$strCurrentTime = getDateTime($i);
+	$url = "https://m3uiptv.xyz/free-iptv-links-m3u-playlist-$strCurrentTime/";
+	echo $url . PHP_EOL;
 	$i++;
 } while (get_http_response_code($url) != "200" && $i < 10);
 
 $arrURLs = getURLData($url, 'pre');
-$arrURLs = array_unique(array_merge($arrThirdArray, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
+$arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
 //$arrURLs = array('https://freedailyiptv.com/links/25-02-2019/World20_freedailyiptv.com.m3u');
 $strFinal = '';
