@@ -36,12 +36,13 @@ $stradtFinal = '';
 $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 foreach ($arrURLs as $index => $strURL) {
-	if (strpos($strURL, 'http') === false || strpos($strURL, 'm3u') === false) {
+	if (strpos($strURL, 'http') === false) {
 		unset($arrURLs[$index]);
 		continue;
 	}
 	echo $strURL . PHP_EOL;
-	if (get_http_response_code($strURL) != "200" || empty($strURL)) {
+	if (false == in_array(get_http_response_code($strURL), array("200", "302")) || empty($strURL)) {
+		echo get_http_response_code($strURL);
 		unset($arrURLs[$index]);
 		continue;
 	} else {
