@@ -40,20 +40,20 @@ foreach ($arrURLs as $index => $strURL) {
 		unset($arrURLs[$index]);
 		continue;
 	}
-	echo $strURL . PHP_EOL;
+	//echo $strURL . PHP_EOL;
 	if (false == in_array(get_http_response_code($strURL), array("200", "302")) || empty($strURL)) {
-		echo get_http_response_code($strURL);
+		//echo get_http_response_code($strURL);
 		unset($arrURLs[$index]);
 		continue;
 	} else {
 		$strContent = file_get_contents($strURL);
 	}
-	
+
 	/*if ($strChannelCount >= 500) {
 		unset($arrURLs[$index]);
 		continue;
 	}*/
-
+	echo "Channels: " . $strChannelCount . PHP_EOL;
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
