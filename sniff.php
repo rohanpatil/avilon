@@ -30,7 +30,7 @@ $arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCm
 
 $arrURLs = array_unique(array_merge($arrStaticURLs, $arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
-//$arrURLs = array('https://freedailyiptv.com/links/25-02-2019/World20_freedailyiptv.com.m3u');
+//$arrURLs = array('https://drive.google.com/a/anyonehome.com/uc?id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4');
 $strFinal = '';
 $stradtFinal = '';
 $strChannelCount = 0;
@@ -41,13 +41,15 @@ foreach ($arrURLs as $index => $strURL) {
 		continue;
 	}
 	//echo $strURL . PHP_EOL;
-	if (false == in_array(get_http_response_code($strURL), array("200")) || empty($strURL)) {
+	$intHTTPCode = get_http_response_code($strURL);
+	if (true == in_array($intHTTPCode, array("302")) && strpos(strtolower($strURL), 'drive') !== false) {
+	} else if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
 		unset($arrURLs[$index]);
 		continue;
-	} else {
-		$strContent = file_get_contents($strURL);
 	}
+
+	$strContent = file_get_contents($strURL);
 
 	/*if ($strChannelCount >= 500) {
 		unset($arrURLs[$index]);
