@@ -41,7 +41,7 @@ foreach ($arrURLs as $index => $strURL) {
 		continue;
 	}
 	//echo $strURL . PHP_EOL;
-	if (false == in_array(get_http_response_code($strURL), array("200", "302")) || empty($strURL)) {
+	if (false == in_array(get_http_response_code($strURL), array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
 		unset($arrURLs[$index]);
 		continue;
