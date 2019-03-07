@@ -26,9 +26,9 @@ do {
 
 $arrURLs = getURLData($url, 'pre');
 
-$arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4&export=download');
+//$arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4&export=download');
 
-$arrURLs = array_unique(array_merge($arrStaticURLs, $arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
+$arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
 //$arrURLs = array('https://drive.google.com/a/anyonehome.com/uc?id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4');
 $strFinal = '';
