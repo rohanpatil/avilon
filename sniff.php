@@ -36,6 +36,7 @@ $stradtFinal = '';
 $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 foreach ($arrURLs as $index => $strURL) {
+	$intFailedCount = 0;
 	if (strpos($strURL, 'http') === false) {
 		unset($arrURLs[$index]);
 		continue;
@@ -59,6 +60,11 @@ foreach ($arrURLs as $index => $strURL) {
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
+
+		if ($intFailedCount >= 5) {
+			break;
+		}
+
 		if (preg_match('(hindi:|english:|marathi:|in:|in-|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 
@@ -67,6 +73,7 @@ foreach ($arrURLs as $index => $strURL) {
 				$url = trim(explode(PHP_EOL, $value)[1]);
 				if (!$fp = @fopen($url, "r", false, $context)) {
 					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
+					$intFailedCount++;
 				} else {
 					if (preg_match('(adt|xxx)', strtolower($value)) === 1) {
 						$stradtFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
