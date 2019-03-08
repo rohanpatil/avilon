@@ -101,7 +101,7 @@ foreach ($arrURLs as $index => $strURL) {
 		}
 	}
 	unset($arrstrContent);
-	//echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
+	echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
 }
 /*$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
 fwrite($myfile, $strFinal);
