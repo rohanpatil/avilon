@@ -73,7 +73,7 @@ foreach ($arrURLs as $index => $strURL) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
-			if (strpos(strtolower($value), 'hd') !== false) {
+			//if (strpos(strtolower($value), 'hd') !== false) {
 				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
@@ -97,7 +97,7 @@ foreach ($arrURLs as $index => $strURL) {
 					}
 					fclose($fp);
 				}
-			}
+			//}
 		}
 	}
 	unset($arrstrContent);
