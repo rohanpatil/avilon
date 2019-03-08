@@ -64,10 +64,10 @@ foreach ($arrURLs as $index => $strURL) {
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
 
-		if ($intFailedCount >= 5) {
+		/*if ($intFailedCount >= 5) {
 			echo "FAILED : " . $strURL . PHP_EOL;
 			break;
-		}
+		}*/
 
 		if (preg_match('(hindi:|english:|marathi:|in:|in-|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
@@ -101,7 +101,7 @@ foreach ($arrURLs as $index => $strURL) {
 		}
 	}
 	unset($arrstrContent);
-	echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
+	//echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
 }
 /*$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
 fwrite($myfile, $strFinal);
