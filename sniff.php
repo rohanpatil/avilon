@@ -46,8 +46,7 @@ foreach ($arrURLs as $index => $strURL) {
 	}
 	//echo $strURL . PHP_EOL;
 	$intHTTPCode = get_http_response_code($strURL);
-	if (true == in_array($intHTTPCode, array("302")) && strpos(strtolower($strURL), 'drive') !== false) {
-	} else if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
+	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
 		unset($arrURLs[$index]);
 		continue;
