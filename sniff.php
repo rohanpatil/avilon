@@ -37,6 +37,9 @@ $strChannelCount = 0;
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 foreach ($arrURLs as $index => $strURL) {
 	$intFailedCount = 0;
+	$intSuccessCount = 0;
+	$intTotalChannelCount = 0;
+	$intHDChannelCount = 0;
 	if (strpos($strURL, 'http') === false) {
 		unset($arrURLs[$index]);
 		continue;
@@ -56,25 +59,36 @@ foreach ($arrURLs as $index => $strURL) {
 		unset($arrURLs[$index]);
 		continue;
 	}*/
-	echo "Channels: " . $strChannelCount . PHP_EOL;
+
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
 
 		if ($intFailedCount >= 5) {
+			echo "FAILED : " . $strURL . PHP_EOL;
 			break;
 		}
 
 		if (preg_match('(hindi:|english:|marathi:|in:|in-|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
+			$intTotalChannelCount++;
 
 			if (strpos(strtolower($value), 'hd') !== false) {
+				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
+
+				if ($intSuccessCount < 6) {
+					$fp = @fopen($url, "r", false, $context);
+				} else {
+					$fp = TRUE;
+				}
+
 				if (!$fp = @fopen($url, "r", false, $context)) {
 					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
 					$intFailedCount++;
 				} else {
+					$intSuccessCount++;
 					if (preg_match('(adt|xxx)', strtolower($value)) === 1) {
 						$stradtFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
 					} else {
@@ -86,6 +100,8 @@ foreach ($arrURLs as $index => $strURL) {
 			}
 		}
 	}
+	unset($arrstrContent);
+	echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
 }
 /*$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
 fwrite($myfile, $strFinal);
