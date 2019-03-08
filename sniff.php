@@ -40,7 +40,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false) {
+	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, udp') !== false) {
 		unset($arrURLs[$index]);
 		continue;
 	}
