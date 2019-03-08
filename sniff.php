@@ -1,6 +1,7 @@
 <?php
 set_time_limit(0);
 # Use the Curl extension to query Google and get back a page of results
+$context = stream_context_create(array('http' => array('timeout' => 5)));
 
 $arrStartArray = getURLData("https://freedailyiptv.com/world-m3u-free-daily-iptv-list-" . date("m-Y") . "/", 'a');
 $arrThirdArray = getURLData("https://freedailyiptv.com/stream-database/", 'span');
@@ -34,13 +35,13 @@ $arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArra
 $strFinal = '';
 $stradtFinal = '';
 $strChannelCount = 0;
-$context = stream_context_create(array('http' => array('timeout' => 5)));
+
 foreach ($arrURLs as $index => $strURL) {
 	$intFailedCount = 0;
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp') !== false) {
+	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp' || strpos($strURL, 'stream') !== false) {
 		unset($arrURLs[$index]);
 		continue;
 	}
