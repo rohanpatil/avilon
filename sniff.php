@@ -119,6 +119,7 @@ if (false == empty($stradtFinal)) {
 exit;
 
 function get_http_response_code($url) {
+	stream_context_set_default(array('http' => array('timeout' => 5)));
 	$headers = get_headers($url);
 	return substr($headers[0], 9, 3);
 }
