@@ -41,7 +41,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp') !== false || strpos($strURL, 'stream') !== false) {
+	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp') !== false || strpos($strURL, 'stream') !== false || strpos($strURL, 'mp3') !== false) {
 		unset($arrURLs[$index]);
 		continue;
 	}
@@ -95,7 +95,11 @@ foreach ($arrURLs as $index => $strURL) {
 					$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
 					$strChannelCount++;
 				}
-				fclose($fp);
+
+				if (is_resource($fp)) {
+					fclose($fp);
+				}
+
 			}
 			//}
 		}
