@@ -31,7 +31,7 @@ $arrURLs = getURLData($url, 'pre');
 
 $arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
 
-//$arrURLs = array('https://drive.google.com/a/anyonehome.com/uc?id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4');
+//$arrURLs = array('http://roseflo.com:25461/get.php?username=bff912bcc9&password=bff912bd00&type=m3u');
 $strFinal = '';
 $stradtFinal = '';
 $strChannelCount = 0;
@@ -64,51 +64,53 @@ foreach ($arrURLs as $index => $strURL) {
 	unset($strContent);
 	foreach ($arrstrContent as $value) {
 
-		/*if ($intFailedCount >= 5) {
+		if ($intFailedCount >= 5) {
 			echo "FAILED : " . $strURL . PHP_EOL;
 			break;
-		}*/
+		}
 
 		if (preg_match('(hindi:|english:|marathi:|in:|in-|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
 			//if (strpos(strtolower($value), 'hd') !== false) {
-				$intHDChannelCount++;
-				$strgroupTitle = 'HD ' . $index;
-				$url = trim(explode(PHP_EOL, $value)[1]);
+			$intHDChannelCount++;
+			$strgroupTitle = 'HD ' . $index;
+			$url = trim(explode(PHP_EOL, $value)[1]);
 
-				if ($intSuccessCount < 6) {
-					$fp = @fopen($url, "r", false, $context);
-				} else {
-					$fp = TRUE;
-				}
+			if ($intSuccessCount < 6) {
+				$fp = @fopen($url, "r", false, $context);
+			} else {
+				$fp = TRUE;
+			}
 
-				if (!$fp = @fopen($url, "r", false, $context)) {
-					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
-					$intFailedCount++;
+			if (!$fp = @fopen($url, "r", false, $context)) {
+				//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
+				$intFailedCount++;
+			} else {
+				$intSuccessCount++;
+				if (preg_match('(adt|xxx)', strtolower($value)) === 1) {
+					$stradtFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
 				} else {
-					$intSuccessCount++;
-					if (preg_match('(adt|xxx)', strtolower($value)) === 1) {
-						$stradtFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
-					} else {
-						$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
-						$strChannelCount++;
-					}
-					fclose($fp);
+					$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
+					$strChannelCount++;
 				}
+				fclose($fp);
+			}
 			//}
 		}
 	}
+	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
+	$strFinal = '';
 	unset($arrstrContent);
 	echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
 }
 /*$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
 fwrite($myfile, $strFinal);
 fclose($myfile);*/
-if (false == empty($strFinal)) {
+if (file_exists('latest.m3u')) {
 	echo "Writing in the paste URL";
-	writeFile($strFinal, 'f9p029xslv', 'Channels');
+	writeFile(file_get_contents('latest.m3u'), 'f9p029xslv', 'Channels');
 }
 
 if (false == empty($stradtFinal)) {
@@ -116,6 +118,7 @@ if (false == empty($stradtFinal)) {
 	writeFile($stradtFinal, 'f9tkwi5gse', 'ADT');
 }
 
+@unlink('latest.m3u');
 exit;
 
 function get_http_response_code($url) {
