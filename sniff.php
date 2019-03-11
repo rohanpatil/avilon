@@ -84,7 +84,7 @@ foreach ($arrURLs as $index => $strURL) {
 				$fp = TRUE;
 			}
 
-			if (!$fp = @fopen($url, "r", false, $context)) {
+			if (!$fp) {
 				//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
 				$intFailedCount++;
 			} else {
