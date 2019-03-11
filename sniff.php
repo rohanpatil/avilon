@@ -45,7 +45,7 @@ foreach ($arrURLs as $index => $strURL) {
 		unset($arrURLs[$index]);
 		continue;
 	}
-	echo $strURL . PHP_EOL;
+	//echo $strURL . PHP_EOL;
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
@@ -73,35 +73,35 @@ foreach ($arrURLs as $index => $strURL) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
-			//if (strpos(strtolower($value), 'hd') !== false) {
-			$intHDChannelCount++;
-			$strgroupTitle = 'HD ' . $index;
-			$url = trim(explode(PHP_EOL, $value)[1]);
+			if (preg_match('(tamil|malayalam)', strtolower($value)) !== 1) {
+				$intHDChannelCount++;
+				$strgroupTitle = 'HD ' . $index;
+				$url = trim(explode(PHP_EOL, $value)[1]);
 
-			if ($intSuccessCount < 6) {
-				$fp = @fopen($url, "r", false, $context);
-			} else {
-				$fp = TRUE;
-			}
-
-			if (!$fp) {
-				//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
-				$intFailedCount++;
-			} else {
-				$intSuccessCount++;
-				if (preg_match('(adt|xxx)', strtolower($value)) === 1) {
-					$stradtFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
+				if ($intSuccessCount < 6) {
+					$fp = @fopen($url, "r", false, $context);
 				} else {
-					$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
-					$strChannelCount++;
+					$fp = TRUE;
 				}
 
-				if (is_resource($fp)) {
-					fclose($fp);
-				}
+				if (!$fp) {
+					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
+					$intFailedCount++;
+				} else {
+					$intSuccessCount++;
+					if (preg_match('(adt|xxx)', strtolower($value)) === 1) {
+						$stradtFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
+					} else {
+						$strFinal .= '#EXTINF' . str_replace(array(':-1,', ':0,'), array(':-1,' . ' group-title=\"' . $strgroupTitle . '\", ', ':0,' . ' group-title=\"' . $strgroupTitle . '\", '), addslashes($value)) . PHP_EOL;
+						$strChannelCount++;
+					}
 
+					if (is_resource($fp)) {
+						fclose($fp);
+					}
+
+				}
 			}
-			//}
 		}
 		unset($arrstrContent[$index1]);
 	}
