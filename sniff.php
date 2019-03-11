@@ -62,7 +62,7 @@ foreach ($arrURLs as $index => $strURL) {
 
 	$arrstrContent = explode('#EXTINF', $strContent);
 	unset($strContent);
-	foreach ($arrstrContent as $value) {
+	foreach ($arrstrContent as $index1 => $value) {
 
 		if ($intFailedCount >= 5) {
 			echo "FAILED : " . $strURL . PHP_EOL;
@@ -99,6 +99,7 @@ foreach ($arrURLs as $index => $strURL) {
 			}
 			//}
 		}
+		unset($arrstrContent[$index1]);
 	}
 	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 	$strFinal = '';
