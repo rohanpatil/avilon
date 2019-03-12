@@ -45,7 +45,7 @@ foreach ($arrURLs as $index => $strURL) {
 		unset($arrURLs[$index]);
 		continue;
 	}
-	//echo $strURL . PHP_EOL;
+	echo $strURL . PHP_EOL;
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
@@ -128,7 +128,7 @@ exit;
 
 function get_http_response_code($url) {
 	stream_context_set_default(array('http' => array('timeout' => 5)));
-	$headers = get_headers($url);
+	$headers = @get_headers($url);
 	return substr($headers[0], 9, 3);
 }
 
