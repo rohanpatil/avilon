@@ -41,11 +41,19 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp') !== false || strpos($strURL, 'stream') !== false || strpos($strURL, 'mp3') !== false || strpos($strURL, 'mp4') !== false || strpos($strURL, 'mkv') !== false || strpos($strURL, '217.23.8.25') !== false) {
+
+	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka)', strtolower($strURL)) === 1) {
 		unset($arrURLs[$index]);
 		continue;
 	}
+
+	if (preg_match('(http)', strtolower($strURL)) !== 1) {
+		unset($arrURLs[$index]);
+		continue;
+	}
+
 	echo $strURL . PHP_EOL;
+
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
