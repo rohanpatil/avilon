@@ -27,9 +27,19 @@ do {
 
 $arrURLs = getURLData($url, 'pre');
 
+$i = 0;
+do {
+	$strCurrentTime = getDateTime($i, 'd-F-Y');
+	$url = "http://www.iptvurls.com/iptv-m3u-playlist-$strCurrentTime/";
+	echo $url . PHP_EOL;
+	$i++;
+} while (get_http_response_code($url) != "200" && $i < 10);
+
+$arrFifthURLs = getURLData($url, 'p', "\n");
+
 //$arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4&export=download');
 
-$arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs));
+$arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs, $arrFifthURLs));
 
 //$arrURLs = array('http://roseflo.com:25461/get.php?username=bff912bcc9&password=bff912bd00&type=m3u');
 $strFinal = '';
@@ -52,6 +62,7 @@ foreach ($arrURLs as $index => $strURL) {
 		continue;
 	}
 
+	$strURL = (strstr($strURL, " ", true)) ? strstr($strURL, " ", true) : $strURL;
 	echo $strURL . PHP_EOL;
 
 	$intHTTPCode = get_http_response_code($strURL);
@@ -140,16 +151,16 @@ function get_http_response_code($url) {
 	return substr($headers[0], 9, 3);
 }
 
-function getDateTime($intInvertDays) {
+function getDateTime($intInvertDays, $strFormat = 'd-m-Y') {
 	$objDateTime = new DateTime();
 	$objDateTime->setTimeZone(new DateTimeZone('IST'));
 	$strDateInterval = new DateInterval("P" . $intInvertDays . "D");
 	$strDateInterval->invert = 1;
 	$objDateTime->add($strDateInterval);
-	return $objDateTime->format('d-m-Y');
+	return $objDateTime->format($strFormat);
 }
 
-function getURLData($url, $strTag) {
+function getURLData($url, $strTag, $strSeparator = PHP_EOL) {
 	$arrURLs = array();
 	$arrFinalArray = array();
 
@@ -171,7 +182,7 @@ function getURLData($url, $strTag) {
 # Iterate over all the <a> tags
 	foreach ($dom->getElementsByTagName($strTag) as $link) {
 		# Show the <a href>
-		$arrURLs = array_map('trim', explode(PHP_EOL, $link->nodeValue));
+		$arrURLs = array_map('trim', explode($strSeparator, $link->nodeValue));
 		$arrURLs = array_filter($arrURLs);
 		$arrFinalArray = array_merge($arrFinalArray, $arrURLs);
 	}
