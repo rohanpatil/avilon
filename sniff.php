@@ -41,7 +41,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp') !== false || strpos($strURL, 'stream') !== false || strpos($strURL, 'mp3') !== false || strpos($strURL, 'mp4') !== false || strpos($strURL, 'mkv') !== false) {
+	if (strpos($strURL, 'http') === false || strpos($strURL, '130.185.250.102') !== false || strpos($strURL, 'udp') !== false || strpos($strURL, 'stream') !== false || strpos($strURL, 'mp3') !== false || strpos($strURL, 'mp4') !== false || strpos($strURL, 'mkv') !== false || strpos($strURL, '217.23.8.25') !== false) {
 		unset($arrURLs[$index]);
 		continue;
 	}
@@ -69,7 +69,7 @@ foreach ($arrURLs as $index => $strURL) {
 			break;
 		}
 
-		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \|)', strtolower($value)) === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||/^adt|xxx)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
