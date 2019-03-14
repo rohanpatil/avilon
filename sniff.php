@@ -52,7 +52,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
 
-	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka)', strtolower($strURL)) === 1) {
+	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play)', strtolower($strURL)) === 1) {
 		unset($arrURLs[$index]);
 		continue;
 	}
