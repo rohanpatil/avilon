@@ -88,7 +88,7 @@ foreach ($arrURLs as $index => $strURL) {
 			break;
 		}
 
-		if (preg_match('(hindi:|english:|marathi:|\(in\)|hindi \||hindi\||english\||english \||marathi\||marathi \||xxx)', strtolower($value)) === 1 || preg_match('^(in:|in-|in\||in \|in -|adt)') === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||/^adt|xxx)', strtolower($value)) === 1 && preg_match('(spain|bein)', strtolower($value)) !== 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
