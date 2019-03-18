@@ -9,23 +9,10 @@ $arrThirdArray = getURLData("https://freedailyiptv.com/stream-database/", 'span'
 $arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
 $arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
 
-$i = 0;
-do {
-	$strCurrentTime = getDateTime($i);
-	$url = "https://www.en.m3uiptv.com/iptv-links-free-m3u-playlist-$strCurrentTime/";
-	echo $url . PHP_EOL;
-	$i++;
-} while (get_http_response_code($url) != "200" && $i < 10);
+$url = getTodaysURL('https://www.en.m3uiptv.com/iptv-links-free-m3u-playlist-');
 $arrForthURLs = getURLData($url, 'pre');
 
-$i = 0;
-do {
-	$strCurrentTime = getDateTime($i);
-	$url = "https://m3uiptv.xyz/free-iptv-links-m3u-playlist-$strCurrentTime/";
-	echo $url . PHP_EOL;
-	$i++;
-} while (get_http_response_code($url) != "200" && $i < 10);
-
+$url = getTodaysURL('https://m3uiptv.xyz/free-iptv-links-m3u-playlist-');
 $arrURLs = getURLData($url, 'pre');
 
 $i = 0;
@@ -125,7 +112,10 @@ foreach ($arrURLs as $index => $strURL) {
 		}
 		//	unset($arrstrContent[$index1]);
 	}
-	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
+	if ($intSuccessCount >= 10) {
+		file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
+	}
+
 	$strFinal = '';
 	unset($arrstrContent);
 }
@@ -146,6 +136,18 @@ echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 
 @unlink('latest.m3u');
 exit;
+
+function getTodaysURL($strURL) {
+	$i = 0;
+	do {
+		$strCurrentTime = getDateTime($i);
+		$url = "$strURL-$strCurrentTime/";
+		echo $url . PHP_EOL;
+		$i++;
+	} while (get_http_response_code($url) != "200" && $i < 10);
+
+	return $url;
+}
 
 function get_http_response_code($url) {
 	stream_context_set_default(array('http' => array('timeout' => 5)));
