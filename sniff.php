@@ -54,12 +54,12 @@ foreach ($arrURLs as $index => $strURL) {
 	$intHDChannelCount = 0;
 	show_status($index + 1, count($arrURLs));
 	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|95.86.32.7)', strtolower($strURL)) === 1) {
-		unset($arrURLs[$index]);
+		//unset($arrURLs[$index]);
 		continue;
 	}
 
 	if (preg_match('(http)', strtolower($strURL)) !== 1) {
-		unset($arrURLs[$index]);
+		//unset($arrURLs[$index]);
 		continue;
 	}
 
@@ -69,11 +69,11 @@ foreach ($arrURLs as $index => $strURL) {
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
 		//echo get_http_response_code($strURL);
-		unset($arrURLs[$index]);
+		//unset($arrURLs[$index]);
 		continue;
 	}
 
-	$strContent = file_get_contents($strURL);
+	$strContent = @file_get_contents($strURL);
 
 	/*if ($strChannelCount >= 500) {
 		unset($arrURLs[$index]);
@@ -123,7 +123,7 @@ foreach ($arrURLs as $index => $strURL) {
 				}
 			}
 		}
-		unset($arrstrContent[$index1]);
+		//	unset($arrstrContent[$index1]);
 	}
 	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 	$strFinal = '';
