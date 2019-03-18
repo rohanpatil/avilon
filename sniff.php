@@ -1,5 +1,6 @@
 <?php
 set_time_limit(0);
+error_reporting(E_ALL & ~E_NOTICE);
 # Use the Curl extension to query Google and get back a page of results
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 
@@ -51,8 +52,8 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-
-	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play)', strtolower($strURL)) === 1) {
+	show_status($index + 1, count($arrURLs));
+	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|95.86.32.7)', strtolower($strURL)) === 1) {
 		unset($arrURLs[$index]);
 		continue;
 	}
@@ -63,7 +64,7 @@ foreach ($arrURLs as $index => $strURL) {
 	}
 
 	$strURL = (strstr($strURL, " ", true)) ? strstr($strURL, " ", true) : $strURL;
-	echo $strURL . PHP_EOL;
+	//echo $strURL . PHP_EOL;
 
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
@@ -84,7 +85,7 @@ foreach ($arrURLs as $index => $strURL) {
 	foreach ($arrstrContent as $index1 => $value) {
 
 		if ($intFailedCount >= 5) {
-			echo "FAILED : " . $strURL . PHP_EOL;
+			//echo "FAILED : " . $strURL . PHP_EOL;
 			break;
 		}
 
@@ -127,7 +128,6 @@ foreach ($arrURLs as $index => $strURL) {
 	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 	$strFinal = '';
 	unset($arrstrContent);
-	echo "Channels: " . $intTotalChannelCount . " HD Channels: " . $intHDChannelCount . " Final Total Channels: " . $strChannelCount . PHP_EOL;
 }
 /*$myfile = fopen("newfile.m3u", "w") or die("Unable to open file!");
 fwrite($myfile, $strFinal);
@@ -141,6 +141,8 @@ if (false == empty($stradtFinal)) {
 	echo "Writing in the paste URL";
 	writeFile($stradtFinal, 'f9tkwi5gse', 'ADT');
 }
+
+echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 
 @unlink('latest.m3u');
 exit;
@@ -214,5 +216,56 @@ function writeFile($strFinal, $strFileName, $strChannel) {
 		echo 'Error:' . curl_error($ch);
 	}
 	curl_close($ch);
+}
+
+function show_status($done, $total, $size = 30) {
+
+	static $start_time;
+
+	// if we go over our bound, just ignore it
+	if ($done > $total) {
+		return;
+	}
+
+	if (empty($start_time)) {
+		$start_time = time();
+	}
+
+	$now = time();
+
+	$perc = (double) ($done / $total);
+
+	$bar = floor($perc * $size);
+
+	$status_bar = "\r[";
+	$status_bar .= str_repeat("=", $bar);
+	if ($bar < $size) {
+		$status_bar .= ">";
+		$status_bar .= str_repeat(" ", $size - $bar);
+	} else {
+		$status_bar .= "=";
+	}
+
+	$disp = number_format($perc * 100, 0);
+
+	$status_bar .= "] $disp%  $done/$total";
+
+	$rate = ($now - $start_time) / $done;
+	$left = $total - $done;
+	$eta = round($rate * $left, 2);
+
+	$elapsed = $now - $start_time;
+
+	$status_bar .= " remaining: " . number_format($eta) . " sec.  elapsed: " . number_format($elapsed) . " sec.";
+
+	echo "$status_bar  ";
+
+	flush();
+
+	// when done, send a newline
+	if ($done == $total) {
+		echo "\n";
+	}
+
 }
 ?>
