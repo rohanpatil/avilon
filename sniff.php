@@ -39,7 +39,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	show_status($index + 1, count($arrURLs));
+	show_status($index + 1, count($arrURLs), 30, $strChannelCount);
 	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|95.86.32.7)', strtolower($strURL)) === 1) {
 		//unset($arrURLs[$index]);
 		continue;
@@ -220,7 +220,7 @@ function writeFile($strFinal, $strFileName, $strChannel) {
 	curl_close($ch);
 }
 
-function show_status($done, $total, $size = 30) {
+function show_status($done, $total, $size = 30, $channelcount) {
 
 	static $start_time;
 
@@ -257,6 +257,8 @@ function show_status($done, $total, $size = 30) {
 	$eta = round($rate * $left, 2);
 
 	$elapsed = $now - $start_time;
+
+	$status_bar .= " Channels: $channelcount";
 
 	$status_bar .= " remaining: " . number_format($eta) . " sec.  elapsed: " . number_format($elapsed) . " sec.";
 
