@@ -9,10 +9,10 @@ $arrThirdArray = getURLData("https://freedailyiptv.com/stream-database/", 'span'
 $arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
 $arrFirstURLs = getURLData('https://www.oneplaylist.space/', 'span');
 
-$url = getTodaysURL('https://www.en.m3uiptv.com/iptv-links-free-m3u-playlist-');
+$url = getTodaysURL('https://www.en.m3uiptv.com/iptv-links-free-m3u-playlist');
 $arrForthURLs = getURLData($url, 'pre');
 
-$url = getTodaysURL('https://m3uiptv.xyz/free-iptv-links-m3u-playlist-');
+$url = getTodaysURL('https://m3uiptv.xyz/free-iptv-links-m3u-playlist');
 $arrURLs = getURLData($url, 'pre');
 
 $i = 0;
@@ -40,7 +40,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
 	//show_status($index + 1, count($arrURLs), 30, $strChannelCount, $strURL);
-	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|95.86.32.7)', strtolower($strURL)) === 1) {
+	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|95.86.32.7|184.154.202.243)', strtolower($strURL)) === 1) {
 		//unset($arrURLs[$index]);
 		continue;
 	}
@@ -76,6 +76,18 @@ foreach ($arrURLs as $index => $strURL) {
 			break;
 		}
 
+		if ($intSuccessCount < 6) {
+			$fp = @fopen($url, "r", false, $context);
+		} else {
+			$fp = TRUE;
+		}
+
+		if (!$fp) {
+			//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
+			$intFailedCount++;
+			continue;
+		}
+
 		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||adt|xxx)', strtolower($value)) === 1 && preg_match('(spain|bein)', strtolower($value)) !== 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
@@ -84,12 +96,6 @@ foreach ($arrURLs as $index => $strURL) {
 				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
-
-				if ($intSuccessCount < 6) {
-					$fp = @fopen($url, "r", false, $context);
-				} else {
-					$fp = TRUE;
-				}
 
 				if (!$fp) {
 					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
@@ -110,7 +116,7 @@ foreach ($arrURLs as $index => $strURL) {
 				}
 			}
 		}
-		//	unset($arrstrContent[$index1]);
+		unset($arrstrContent[$index1]);
 	}
 	if ($intSuccessCount >= 10) {
 		file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
