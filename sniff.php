@@ -39,7 +39,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	show_status($index + 1, count($arrURLs), 30, $strChannelCount);
+	//show_status($index + 1, count($arrURLs), 30, $strChannelCount, $strURL);
 	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|95.86.32.7)', strtolower($strURL)) === 1) {
 		//unset($arrURLs[$index]);
 		continue;
@@ -51,7 +51,7 @@ foreach ($arrURLs as $index => $strURL) {
 	}
 
 	$strURL = (strstr($strURL, " ", true)) ? strstr($strURL, " ", true) : $strURL;
-	//echo $strURL . PHP_EOL;
+	echo $strURL . PHP_EOL;
 
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
@@ -76,7 +76,7 @@ foreach ($arrURLs as $index => $strURL) {
 			break;
 		}
 
-		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||/^adt|xxx)', strtolower($value)) === 1 && preg_match('(spain|bein)', strtolower($value)) !== 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||adt|xxx)', strtolower($value)) === 1 && preg_match('(spain|bein)', strtolower($value)) !== 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
@@ -220,7 +220,7 @@ function writeFile($strFinal, $strFileName, $strChannel) {
 	curl_close($ch);
 }
 
-function show_status($done, $total, $size = 30, $channelcount) {
+function show_status($done, $total, $size = 30, $channelcount, $strURL) {
 
 	static $start_time;
 
@@ -238,8 +238,8 @@ function show_status($done, $total, $size = 30, $channelcount) {
 	$perc = (double) ($done / $total);
 
 	$bar = floor($perc * $size);
-
-	$status_bar = "\r[";
+	$status_bar = "URL: $strURL";
+	$status_bar .= "\r[";
 	$status_bar .= str_repeat("=", $bar);
 	if ($bar < $size) {
 		$status_bar .= ">";
