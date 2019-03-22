@@ -76,18 +76,6 @@ foreach ($arrURLs as $index => $strURL) {
 			break;
 		}
 
-		if ($intSuccessCount < 6) {
-			$fp = @fopen($url, "r", false, $context);
-		} else {
-			$fp = TRUE;
-		}
-
-		if (!$fp) {
-			//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
-			$intFailedCount++;
-			continue;
-		}
-
 		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||adt|xxx)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
@@ -96,6 +84,12 @@ foreach ($arrURLs as $index => $strURL) {
 				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
+
+				if ($intSuccessCount < 6) {
+					$fp = @fopen($url, "r", false, $context);
+				} else {
+					$fp = TRUE;
+				}
 
 				if (!$fp) {
 					//echo "FAiled ==>" . explode(PHP_EOL, $value)[1];
