@@ -41,7 +41,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	show_status($index + 1, count($arrURLs), 30, $strChannelCount);
+	//show_status($index + 1, count($arrURLs), 30, $strChannelCount);
 
 	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|radio|95.86.32.7|184.154.202.243|livewipserver)', strtolower($strURL)) === 1) {
 		//unset($arrURLs[$index]);
@@ -54,7 +54,7 @@ foreach ($arrURLs as $index => $strURL) {
 	}
 
 	$strURL = (strstr($strURL, " ", true)) ? strstr($strURL, " ", true) : $strURL;
-	//echo $strURL . PHP_EOL;
+	echo $strURL . PHP_EOL;
 
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
@@ -119,7 +119,7 @@ foreach ($arrURLs as $index => $strURL) {
 
 		unset($arrstrContent[$index1]);
 	}
-	//echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
+	echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 	if ($intSuccessCount >= 10) {
 		file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 	}
