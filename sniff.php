@@ -110,11 +110,11 @@ foreach ($arrURLs as $index => $strURL) {
 				}
 			}
 		}
+		echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 		unset($arrstrContent[$index1]);
 	}
-	if ($intSuccessCount >= 10) {
-		file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
-	}
+
+	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 
 	$strFinal = '';
 	unset($arrstrContent);
@@ -131,8 +131,6 @@ if (false == empty($stradtFinal)) {
 	echo "Writing in the paste URL";
 	writeFile($stradtFinal, 'f9tkwi5gse', 'ADT');
 }
-
-echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 
 @unlink('latest.m3u');
 exit;
