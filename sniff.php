@@ -4,6 +4,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 # Use the Curl extension to query Google and get back a page of results
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 
+$arrPreviousURLs = explode(PHP_EOL, file_get_contents('https://glot.io/snippets/fakv95iyid/raw'));
 $arrStartArray = getURLData("https://freedailyiptv.com/world-m3u-free-daily-iptv-list-" . date("m-Y") . "/", 'a');
 $arrThirdArray = getURLData("https://freedailyiptv.com/stream-database/", 'span');
 $arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
@@ -27,12 +28,13 @@ $arrFifthURLs = getURLData($url, 'p', "\n");
 
 //$arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4&export=download');
 
-$arrURLs = array_unique(array_merge($arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs, $arrFifthURLs));
+$arrURLs = array_unique(array_merge($arrPreviousURLs, $arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs, $arrFifthURLs));
 
 //$arrURLs = array('http://roseflo.com:25461/get.php?username=bff912bcc9&password=bff912bd00&type=m3u');
 $strFinal = '';
 $stradtFinal = '';
 $strChannelCount = 0;
+$arrLastWorkingURLs = array();
 
 foreach ($arrURLs as $index => $strURL) {
 	$intFailedCount = 0;
@@ -107,13 +109,16 @@ foreach ($arrURLs as $index => $strURL) {
 						fclose($fp);
 					}
 
+					if (!in_array($strURL, $arrLastWorkingURLs, true)) {
+						array_push($arrLastWorkingURLs, $strURL);
+					}
 				}
 			}
 		}
-		echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
+
 		unset($arrstrContent[$index1]);
 	}
-
+	echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 
 	$strFinal = '';
@@ -130,6 +135,10 @@ if (file_exists('latest.m3u')) {
 if (false == empty($stradtFinal)) {
 	echo "Writing in the paste URL";
 	writeFile($stradtFinal, 'f9tkwi5gse', 'ADT');
+}
+
+if (false == empty($arrLastWorkingURLs)) {
+	writeFile(implode(PHP_EOL, $arrLastWorkingURLs), 'fakv95iyid', 'URLs');
 }
 
 @unlink('latest.m3u');
