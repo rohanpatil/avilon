@@ -41,7 +41,8 @@ foreach ($arrURLs as $index => $strURL) {
 	$intSuccessCount = 0;
 	$intTotalChannelCount = 0;
 	$intHDChannelCount = 0;
-	//show_status($index + 1, count($arrURLs), 30, $strChannelCount, $strURL);
+	show_status($index + 1, count($arrURLs), 30, $strChannelCount);
+
 	if (preg_match('(130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|radio|95.86.32.7|184.154.202.243|livewipserver)', strtolower($strURL)) === 1) {
 		//unset($arrURLs[$index]);
 		continue;
@@ -82,7 +83,7 @@ foreach ($arrURLs as $index => $strURL) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
-			if (preg_match('(tamil|malayalam)', strtolower($value)) !== 1) {
+			if (preg_match('(tamil|malayalam|spain|bein)', strtolower($value)) !== 1) {
 				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
@@ -118,7 +119,7 @@ foreach ($arrURLs as $index => $strURL) {
 
 		unset($arrstrContent[$index1]);
 	}
-	echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
+	//echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
 	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
 
 	$strFinal = '';
@@ -227,7 +228,7 @@ function writeFile($strFinal, $strFileName, $strChannel) {
 	curl_close($ch);
 }
 
-function show_status($done, $total, $size = 30, $channelcount, $strURL) {
+function show_status($done, $total, $size = 30, $channelcount) {
 
 	static $start_time;
 
@@ -245,8 +246,8 @@ function show_status($done, $total, $size = 30, $channelcount, $strURL) {
 	$perc = (double) ($done / $total);
 
 	$bar = floor($perc * $size);
-	$status_bar = "URL: $strURL";
-	$status_bar .= "\r[";
+
+	$status_bar = "\r[";
 	$status_bar .= str_repeat("=", $bar);
 	if ($bar < $size) {
 		$status_bar .= ">";
