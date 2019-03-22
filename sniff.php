@@ -54,7 +54,7 @@ foreach ($arrURLs as $index => $strURL) {
 	}
 
 	$strURL = (strstr($strURL, " ", true)) ? strstr($strURL, " ", true) : $strURL;
-	echo $strURL . PHP_EOL;
+	//echo $strURL . PHP_EOL;
 
 	$intHTTPCode = get_http_response_code($strURL);
 	if (false == in_array($intHTTPCode, array("200")) || empty($strURL)) {
