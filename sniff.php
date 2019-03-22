@@ -120,7 +120,9 @@ foreach ($arrURLs as $index => $strURL) {
 		unset($arrstrContent[$index1]);
 	}
 	//echo " Final Total Channels: " . $strChannelCount . PHP_EOL;
-	file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
+	if ($intSuccessCount >= 10) {
+		file_put_contents('latest.m3u', $strFinal, FILE_APPEND | LOCK_EX);
+	}
 
 	$strFinal = '';
 	unset($arrstrContent);
@@ -278,6 +280,5 @@ function show_status($done, $total, $size = 30, $channelcount) {
 	if ($done == $total) {
 		echo "\n";
 	}
-
 }
 ?>
