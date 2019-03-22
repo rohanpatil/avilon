@@ -83,7 +83,7 @@ foreach ($arrURLs as $index => $strURL) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
-			if (preg_match('(tamil|malayalam|spain|bein)', strtolower($value)) !== 1) {
+			if (preg_match('(tamil|malayalam|spain|bein|latin)', strtolower($value)) !== 1) {
 				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
@@ -280,5 +280,6 @@ function show_status($done, $total, $size = 30, $channelcount) {
 	if ($done == $total) {
 		echo "\n";
 	}
+
 }
 ?>
