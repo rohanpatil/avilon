@@ -78,7 +78,7 @@ foreach ($arrURLs as $index => $strURL) {
 			break;
 		}
 
-		if (preg_match('(hindi:|english:|marathi:|in:|/^in-/|\(in\)|in\||in \||hindi \||hindi\||english\||english \||marathi\||marathi \||adt|xxx)', strtolower($value)) === 1) {
+		if (preg_match('(hindi:|english:|marathi:|in:|in-|in -|\(in\)|in\||in \||hindi \||hindi\||hindi -|hindi-|english -|english-|english\||english \||marathi\||marathi \||adt|xxx)', strtolower($value)) === 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
