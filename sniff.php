@@ -83,7 +83,7 @@ foreach ($arrURLs as $index => $strURL) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
-			if (preg_match('(tamil|malayalam|spain|bein|latin|telugu|benin|islam|punjabi|vod|)', strtolower($value)) !== 1) {
+			if (preg_match('(tamil|malayalam|spain|bein|latin|telugu|benin|islam|punjabi|vod)', strtolower($value)) !== 1) {
 				$intHDChannelCount++;
 				$strgroupTitle = 'HD ' . $index;
 				$url = trim(explode(PHP_EOL, $value)[1]);
