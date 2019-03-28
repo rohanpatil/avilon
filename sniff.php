@@ -78,8 +78,8 @@ foreach ($arrURLs as $index => $strURL) {
 			//echo "FAILED : " . $strURL . PHP_EOL;
 			break;
 		}
-
-		if (preg_match('(hindi:|english:|marathi:|in:|in-|in -|\(in\)|in\||in \||hindi \||hindi\||hindi -|hindi-|english -|english-|english\||english \||marathi\||marathi \||adt|xxx)', strtolower($value)) === 1) {
+		$channelname = substr(strrchr($value, ","), 1);
+		if (preg_match('(hindi:|english:|marathi:|in:|in-|in -|\(in\)|in\||in \||hindi \||hindi\||hindi -|hindi-|english -|english-|english\||english \||marathi\||marathi \||adt|xxx)', strtolower(trim($channelname))) === 1) {
 			$strgroupTitle = $index;
 			$intTotalChannelCount++;
 
