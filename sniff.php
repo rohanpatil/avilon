@@ -43,7 +43,7 @@ foreach ($arrURLs as $index => $strURL) {
 	$intHDChannelCount = 0;
 	//show_status($index + 1, count($arrURLs), 30, $strChannelCount);
 
-	if (preg_match('(audio|130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|radio|95.86.32.7|184.154.202.243|livewipserver|.online)', strtolower($strURL)) === 1) {
+	if (preg_match('(latinorigin|audio|130.185.250.102|udp|stream|mp3|mp4|mkv|217.23.8.25|kosmowka|play|radio|95.86.32.7|184.154.202.243|livewipserver|.online)', strtolower($strURL)) === 1) {
 		//unset($arrURLs[$index]);
 		continue;
 	}
