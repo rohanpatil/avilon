@@ -5,6 +5,17 @@ error_reporting(E_ALL & ~E_NOTICE);
 $context = stream_context_create(array('http' => array('timeout' => 5)));
 
 $arrPreviousURLs = explode(PHP_EOL, file_get_contents('https://glot.io/snippets/fakv95iyid/raw'));
+
+$i = 0;
+do {
+	$strCurrentTime = getDateTime($i, 'Y/m/d');
+	$url = "http://www.iptvsrc.net/$strCurrentTime.html";
+	echo $url . PHP_EOL;
+	$i++;
+} while (get_http_response_code($url) != "200" && $i < 10);
+
+$arrSixthURLs = getURLData($url, 'article', "\n");
+
 $arrStartArray = getURLData("https://freedailyiptv.com/world-m3u-free-daily-iptv-list-" . date("m-Y") . "/", 'a');
 $arrThirdArray = getURLData("https://freedailyiptv.com/stream-database/", 'span');
 $arrSecondURLs = getURLData('http://vlctest.eu5.net/', 'span');
@@ -28,7 +39,7 @@ $arrFifthURLs = getURLData($url, 'p', "\n");
 
 //$arrStaticURLs = array('https://drive.google.com/uc?authuser=0&id=1YVbzmZkqeizCmdfrgdtqizQ6NQIPm2M4&export=download');
 
-$arrURLs = array_unique(array_merge($arrPreviousURLs, $arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs, $arrFifthURLs));
+$arrURLs = array_unique(array_merge($arrPreviousURLs, $arrSixthURLs, $arrThirdArray, $arrForthURLs, $arrStartArray, $arrFirstURLs, $arrSecondURLs, $arrURLs, $arrFifthURLs));
 
 //$arrURLs = array('http://roseflo.com:25461/get.php?username=bff912bcc9&password=bff912bd00&type=m3u');
 $strFinal = '';
